@@ -5,6 +5,7 @@ require('./db/database');
 
 const indexRoutes = require('./routes');
 const authRoutes = require('./routes/auth');
+const billingRoutes = require('./routes/billing');
 const customerRoutes = require('./routes/customers');
 const healthRoutes = require('./routes/health');
 const subscriptionRoutes = require('./routes/subscriptions');
@@ -30,6 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use(requireAuth);
 app.use('/api/customers', customerRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api', billingRoutes);
 app.use('/health', healthRoutes);
 
 app.use((err, req, res, next) => {
