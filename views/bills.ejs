@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bills | Daily Tiffin</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="app-page">
+  <header class="topbar">
+    <a class="brand" href="/dashboard">Daily Tiffin</a>
+    <nav><a href="/dashboard">Customers</a><a href="/customers/new">New customer</a><button class="link-button" data-logout>Log out</button></nav>
+  </header>
+  <main class="page-content">
+    <div class="page-heading"><div><p class="eyebrow">Month-end billing</p><h1>Bills</h1></div></div>
+    <form id="bill-filters" class="toolbar filter-form">
+      <label for="month">Billing month</label>
+      <input id="month" name="month" type="month" value="<%= month %>" required>
+      <button class="button" type="submit">Load bills</button>
+    </form>
+    <p id="bill-message" class="form-message" aria-live="polite"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Customer</th><th>Phone</th><th>Plan</th><th>Days delivered</th><th class="amount">Amount</th></tr></thead>
+        <tbody id="bill-rows"><tr><td colspan="5">Choose a month to load bills.</td></tr></tbody>
+        <tfoot><tr><th colspan="4">Total</th><th id="bill-total" class="amount">0.00</th></tr></tfoot>
+      </table>
+    </div>
+  </main>
+  <script src="/owner.js"></script>
+  <script src="/bills.js"></script>
+</body>
+</html>

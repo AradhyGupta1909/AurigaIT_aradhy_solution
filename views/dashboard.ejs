@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | Daily Tiffin</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="app-page">
+  <header class="topbar">
+    <a class="brand" href="/dashboard">Daily Tiffin</a>
+    <nav><a href="/customers/new">New customer</a><a href="/bills">Bills</a><button class="link-button" data-logout>Log out</button></nav>
+  </header>
+  <main class="page-content">
+    <div class="page-heading"><div><p class="eyebrow">Owner workspace</p><h1>Customers</h1></div><a class="button" href="/customers/new">Add customer</a></div>
+    <section class="toolbar" aria-label="Customer filters">
+      <form id="customer-filters" class="filter-form">
+        <label class="sr-only" for="search">Search name or phone</label>
+        <input id="search" name="search" type="search" placeholder="Search name or phone">
+        <label class="sr-only" for="status">Filter by status</label>
+        <select id="status" name="status">
+          <option value="">All statuses</option>
+          <option value="active">Active</option>
+          <option value="paused">Paused</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="none">No subscription</option>
+        </select>
+        <button class="button" type="submit">Search</button>
+      </form>
+      <p id="table-message" class="form-message" aria-live="polite"></p>
+    </section>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th><button class="sort-button" data-sort="name">Name <span></span></button></th>
+          <th><button class="sort-button" data-sort="phone">Phone <span></span></button></th>
+          <th><button class="sort-button" data-sort="status">Status <span></span></button></th>
+          <th><button class="sort-button" data-sort="created_at">Joined <span></span></button></th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody id="customer-rows"><tr><td colspan="5">Loading customers...</td></tr></tbody>
+      </table>
+    </div>
+    <div class="pagination"><button id="previous-page" class="button secondary">Previous</button><span id="page-summary"></span><button id="next-page" class="button secondary">Next</button></div>
+  </main>
+  <script src="/owner.js"></script>
+  <script src="/dashboard.js"></script>
+</body>
+</html>

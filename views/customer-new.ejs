@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New customer | Daily Tiffin</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="app-page">
+  <header class="topbar">
+    <a class="brand" href="/dashboard">Daily Tiffin</a>
+    <nav><a href="/dashboard">Customers</a><a href="/bills">Bills</a><button class="link-button" data-logout>Log out</button></nav>
+  </header>
+  <main class="page-content narrow-content">
+    <a class="back-link" href="/dashboard">Back to customers</a>
+    <p class="eyebrow">New subscription</p>
+    <h1>Add customer</h1>
+    <form id="new-customer-form" class="stack-form">
+      <label for="name">Customer name</label>
+      <input id="name" name="name" required autocomplete="name">
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" required type="tel" autocomplete="tel">
+      <label for="plan_id">Plan</label>
+      <select id="plan_id" name="plan_id" required>
+        <option value="">Choose a plan</option>
+        <% plans.forEach((plan) => { %><option value="<%= plan.id %>"><%= plan.name %> · <%= plan.price.toFixed(2) %></option><% }); %>
+      </select>
+      <label for="start_date">Start date</label>
+      <input id="start_date" name="start_date" type="date" required>
+      <button class="button" type="submit">Create and subscribe</button>
+      <p id="form-message" class="form-message" aria-live="polite"></p>
+    </form>
+  </main>
+  <script src="/owner.js"></script>
+  <script src="/customer-new.js"></script>
+</body>
+</html>

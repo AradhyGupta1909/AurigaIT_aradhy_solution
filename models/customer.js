@@ -47,6 +47,7 @@ function search({ search = '', status = '', page = 1, limit = 20, sort = 'create
       c.name,
       c.phone,
       c.created_at,
+      latest_subscription.id AS subscription_id,
       COALESCE(latest_subscription.status, 'none') AS current_status
   `;
   const total = db.prepare(`SELECT COUNT(*) AS total ${fromClause} ${whereClause}`).get(...params).total;
