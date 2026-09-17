@@ -5,7 +5,9 @@ require('./db/database');
 
 const indexRoutes = require('./routes');
 const authRoutes = require('./routes/auth');
+const customerRoutes = require('./routes/customers');
 const healthRoutes = require('./routes/health');
+const subscriptionRoutes = require('./routes/subscriptions');
 const requireAuth = require('./middleware/auth');
 
 const app = express();
@@ -26,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRoutes);
 app.use('/api/auth', authRoutes);
 app.use(requireAuth);
+app.use('/api/customers', customerRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/health', healthRoutes);
 
 app.use((err, req, res, next) => {

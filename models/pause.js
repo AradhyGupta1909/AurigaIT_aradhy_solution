@@ -13,6 +13,16 @@ function findById(id) {
   return db.prepare('SELECT id, subscription_id, paused_from, paused_to FROM pauses WHERE id = ?').get(id);
 }
 
+function findOpenBySubscription(subscriptionId) {
+  return db.prepare(`
+    SELECT id, subscription_id, paused_from, paused_to
+    FROM pauses
+    WHERE subscription_id = ? AND paused_to IS NULL
+    ORDER BY id DESC
+    LIMIT 1
+  `).get(subscriptionId);
+}
+
 function create({ subscriptionId, pausedFrom, pausedTo = null }) {
   const result = db.prepare(`
     INSERT INTO pauses (subscription_id, paused_from, paused_to)
@@ -30,8 +40,13 @@ function update(id, { subscriptionId, pausedFrom, pausedTo = null }) {
   return result.changes ? findById(id) : undefined;
 }
 
+function close(id, pausedTo) {
+  const result = db.prepare('UPDATE pauses SET paused_to = ? WHERE id = ? AND paused_to IS NULL').run(pausedTo, id);
+  return result.changes ? findById(id) : undefined;
+}
+
 function remove(id) {
   return db.prepare('DELETE FROM pauses WHERE id = ?').run(id).changes > 0;
 }
 
-module.exports = { findAll, findById, create, update, remove };
+module.exports = { findAll, findById, findOpenBySubscription, create, update, close, remove };
