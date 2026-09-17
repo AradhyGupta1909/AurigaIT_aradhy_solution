@@ -19,4 +19,8 @@ router.get('/plans', (req, res) => {
   res.render('plans', { user: req.session.user, plans: plans.findAll({ limit: 100 }) });
 });
 
+router.get('/import', (req, res) => {
+  res.render('import', { user: req.session.user });
+});
+
 module.exports = router;

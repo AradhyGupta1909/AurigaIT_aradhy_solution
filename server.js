@@ -9,6 +9,7 @@ const billingRoutes = require('./routes/billing');
 const customerRoutes = require('./routes/customers');
 const healthRoutes = require('./routes/health');
 const ownerRoutes = require('./routes/owner');
+const importRoutes = require('./routes/import');
 const planRoutes = require('./routes/plans');
 const notificationRoutes = require('./routes/notifications');
 const subscriptionRoutes = require('./routes/subscriptions');
@@ -19,6 +20,7 @@ const port = Number(process.env.PORT) || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.text({ type: ['text/csv', 'text/plain'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
@@ -39,6 +41,7 @@ app.use(requireAuth);
 app.use('/', ownerRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api', planRoutes);
+app.use('/api', importRoutes.router);
 app.use('/', notificationRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api', billingRoutes);

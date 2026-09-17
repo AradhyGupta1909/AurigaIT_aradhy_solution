@@ -67,6 +67,10 @@ function findById(id) {
   return db.prepare('SELECT id, name, phone, created_at FROM customers WHERE id = ?').get(id);
 }
 
+function findByPhone(phone) {
+  return db.prepare('SELECT id, name, phone, created_at FROM customers WHERE phone = ?').get(phone);
+}
+
 function create({ name, phone }) {
   const result = db.prepare('INSERT INTO customers (name, phone) VALUES (?, ?)').run(name, phone);
   return findById(result.lastInsertRowid);
@@ -81,4 +85,4 @@ function remove(id) {
   return db.prepare('DELETE FROM customers WHERE id = ?').run(id).changes > 0;
 }
 
-module.exports = { findAll, search, findById, create, update, remove };
+module.exports = { findAll, search, findById, findByPhone, create, update, remove };

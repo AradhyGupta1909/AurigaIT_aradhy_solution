@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Import customers | Daily Tiffin</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="app-page">
+  <%- include('partials/nav', { context: 'owner' }) %>
+  <main class="page-content narrow-content">
+    <a class="back-link" href="/dashboard">Back to customers</a>
+    <p class="eyebrow">Batch onboarding</p>
+    <h1>Import customers</h1>
+    <p class="intro">Paste CSV with columns: <code>name, phone, plan_name, start_date</code>.</p>
+    <form id="import-form" class="stack-form">
+      <label for="csv-file">CSV file</label>
+      <input id="csv-file" type="file" accept=".csv,text/csv">
+      <label for="csv-text">CSV text</label>
+      <textarea id="csv-text" name="csv" rows="12" placeholder="name,phone,plan_name,start_date"></textarea>
+      <button class="button" type="submit">Import</button>
+      <p id="import-message" class="form-message" aria-live="polite"></p>
+    </form>
+    <section id="import-report" class="import-report" hidden>
+      <h2>Import report</h2>
+      <p><strong id="imported-count">0</strong> imported · <strong id="deduped-count">0</strong> deduped</p>
+      <ul id="rejected-rows"></ul>
+    </section>
+  </main>
+  <script src="/owner.js"></script>
+  <script src="/import.js"></script>
+</body>
+</html>

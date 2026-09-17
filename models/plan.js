@@ -13,6 +13,10 @@ function findById(id) {
   return db.prepare('SELECT id, name, price, description FROM plans WHERE id = ?').get(id);
 }
 
+function findByName(name) {
+  return db.prepare('SELECT id, name, price, description FROM plans WHERE lower(name) = lower(?)').get(name.trim());
+}
+
 function create({ name, price, description = '' }) {
   const result = db.prepare('INSERT INTO plans (name, price, description) VALUES (?, ?, ?)').run(name, price, description);
   return findById(result.lastInsertRowid);
@@ -27,4 +31,4 @@ function remove(id) {
   return db.prepare('DELETE FROM plans WHERE id = ?').run(id).changes > 0;
 }
 
-module.exports = { findAll, findById, create, update, remove };
+module.exports = { findAll, findById, findByName, create, update, remove };

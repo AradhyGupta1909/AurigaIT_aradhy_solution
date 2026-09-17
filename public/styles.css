@@ -105,6 +105,9 @@ tfoot th { color: #26332d; border-bottom: 0; }
 .plan-item strong { white-space: nowrap; font: 700 1rem Arial, sans-serif; }
 .plan-form-section { padding: 1.5rem; background: #dce8d7; }
 .plan-form-section .stack-form { margin-top: 0; }
+.import-report { margin-top: 3rem; padding: 1.25rem; background: #dce8d7; font: 0.9rem/1.5 Arial, sans-serif; }
+.import-report h2 { margin-top: 0; font: 500 1.3rem Georgia, serif; }
+.import-report ul { padding-left: 1.2rem; }
 
 @media (max-width: 650px) {
   .landing-nav { align-items: flex-start; flex-direction: column; }
