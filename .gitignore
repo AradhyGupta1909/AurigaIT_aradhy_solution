@@ -42,6 +42,7 @@ node_modules/
 jspm_packages/
 
 # Local SQLite database
+db/*.sqlite*
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal

@@ -41,6 +41,7 @@ DATABASE_PATH=/tmp/tiffin.sqlite npm start
 - Register first with `POST /api/auth/register`; the signed session cookie returned by that request is required for protected API and owner page requests.
 - `curl -i` shows response status, redirects, and the session cookie. Save cookies with `curl -c cookies.txt` and reuse them with `curl -b cookies.txt`.
 - The schema is applied by [db/database.js](db/database.js) from [schema.sql](schema.sql).
+- If you see a `no such column` error, run `npm run reset-db`.
 
 ## Pages
 
