@@ -10,9 +10,6 @@ function publicUser(user) {
 }
 
 function respondWithAuth(req, res, user, statusCode = 200) {
-  if (req.accepts('html') && !req.is('json')) {
-    return res.redirect('/dashboard');
-  }
   return res.status(statusCode).json({ user });
 }
 
@@ -35,7 +32,8 @@ router.post('/register', async (req, res, next) => {
     req.session.user = publicUser(user);
     return respondWithAuth(req, res, req.session.user, 201);
   } catch (error) {
-    return next(error);
+    console.error('Owner registration failed:', error);
+    return res.status(500).json({ error: 'Unable to register account' });
   }
 });
 
@@ -53,7 +51,8 @@ router.post('/login', async (req, res, next) => {
     req.session.user = publicUser(user);
   return respondWithAuth(req, res, req.session.user);
   } catch (error) {
-    return next(error);
+    console.error('Owner login failed:', error);
+    return res.status(500).json({ error: 'Unable to log in' });
   }
 });
 
