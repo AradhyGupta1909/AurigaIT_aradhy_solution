@@ -1,0 +1,23 @@
+:root {
+  color-scheme: light;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #26332d;
+  background: #f7f3ea;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+.hero {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  max-width: 760px;
+  padding: 12vw;
+  background: #dce8d7;
+}
+.eyebrow { margin: 0 0 1rem; font: 700 0.8rem/1.2 Arial, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: #53735a; }
+h1 { max-width: 650px; margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.92; font-weight: 500; }
+.intro { max-width: 470px; margin: 2rem 0; font-size: 1.25rem; line-height: 1.5; }
+.actions { display: flex; align-items: center; gap: 1.5rem; }
+.button { padding: 0.85rem 1.2rem; color: #f7f3ea; background: #26332d; text-decoration: none; border-radius: 4px; font: 700 0.95rem Arial, sans-serif; }
+.text-link { color: #26332d; font: 700 0.95rem Arial, sans-serif; }
