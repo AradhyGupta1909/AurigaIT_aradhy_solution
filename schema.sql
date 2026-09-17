@@ -50,9 +50,23 @@ CREATE TABLE IF NOT EXISTS outbox (
   FOREIGN KEY (subscription_id) REFERENCES subscriptions (id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS subscription_transfers (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  subscription_id INTEGER NOT NULL,
+  from_customer_id INTEGER NOT NULL,
+  to_customer_id INTEGER NOT NULL,
+  transferred_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (subscription_id) REFERENCES subscriptions (id) ON DELETE CASCADE,
+  FOREIGN KEY (from_customer_id) REFERENCES customers (id) ON DELETE CASCADE,
+  FOREIGN KEY (to_customer_id) REFERENCES customers (id) ON DELETE CASCADE,
+  CHECK (from_customer_id != to_customer_id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_customers_phone ON customers (phone);
 CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_customer ON subscriptions (customer_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions (status);
 CREATE INDEX IF NOT EXISTS idx_pauses_subscription ON pauses (subscription_id);
 CREATE INDEX IF NOT EXISTS idx_outbox_sent_at ON outbox (sent_at);
+CREATE INDEX IF NOT EXISTS idx_transfers_subscription_date ON subscription_transfers (subscription_id, transferred_on);

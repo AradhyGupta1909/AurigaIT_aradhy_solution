@@ -84,6 +84,8 @@ th { color: #53735a; font-size: 0.75rem; text-transform: uppercase; letter-spaci
 .status-paused { background: #f2e5bc; color: #725b1c; }
 .status-cancelled, .status-none { background: #ead8d2; color: #7b3c2e; }
 .small-button { padding: 0.5rem 0.7rem; border: 1px solid #53735a; color: #26332d; background: transparent; font: 700 0.75rem Arial, sans-serif; }
+.transfer-form { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.5rem; }
+.transfer-form input, .transfer-form select { width: auto; min-width: 130px; padding: 0.45rem; font-size: 0.75rem; }
 .secondary { color: #26332d; background: transparent; border: 1px solid #9fb19a; }
 .pagination { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.5rem; font: 0.85rem Arial, sans-serif; }
 .pagination .button { padding: 0.6rem 0.8rem; }

@@ -1,6 +1,7 @@
 const express = require('express');
 const pauses = require('../models/pause');
 const subscriptions = require('../models/subscription');
+const transfers = require('../models/transfer');
 const billing = require('../services/billing');
 
 const router = express.Router();
@@ -15,24 +16,49 @@ function requestedMonth(value) {
   return billing.monthDetails(month) ? month : null;
 }
 
+function customerDetails(customerId) {
+  return require('../db/database').prepare('SELECT id, name, phone FROM customers WHERE id = ?').get(customerId);
+}
+
 function billForSubscription(subscription, month) {
+  const subscriptionTransfers = transfers.findAllBySubscription(subscription.id);
+  const boundaries = [{ customerId: subscription.customer_id, fromDate: null, toDate: subscriptionTransfers[0] ? subscriptionTransfers[0].transferred_on : null }];
+  subscriptionTransfers.forEach((transfer, index) => {
+    boundaries.push({
+      customerId: transfer.to_customer_id,
+      fromDate: transfer.transferred_on,
+      toDate: subscriptionTransfers[index + 1] ? subscriptionTransfers[index + 1].transferred_on : null
+    });
+  });
+  const lineItems = boundaries.map((boundary) => {
+    const customer = customerDetails(boundary.customerId);
+    return {
+      customer_id: customer.id,
+      customer_name: customer.name,
+      customer_phone: customer.phone,
+      ...billing.calculateBill({
+        month,
+        planPrice: subscription.plan_price,
+        startDate: subscription.start_date,
+        pauses: pauses.findAllBySubscription(subscription.id),
+        fromDate: boundary.fromDate,
+        toDate: boundary.toDate
+      })
+    };
+  });
+  const total = lineItems.reduce((sum, item) => sum + item.bill, 0);
   return {
     subscription_id: subscription.id,
-    customer_id: subscription.customer_id,
-    customer_name: subscription.customer_name,
-    customer_phone: subscription.customer_phone,
     plan_id: subscription.plan_id,
     plan_name: subscription.plan_name,
     plan_price: subscription.plan_price,
     start_date: subscription.start_date,
     status: subscription.status,
     month,
-    ...billing.calculateBill({
-      month,
-      planPrice: subscription.plan_price,
-      startDate: subscription.start_date,
-      pauses: pauses.findAllBySubscription(subscription.id)
-    })
+    total_weekdays: lineItems[0].total_weekdays,
+    days_delivered: lineItems.reduce((sum, item) => sum + item.days_delivered, 0),
+    bill: Math.round(total * 100) / 100,
+    line_items: lineItems
   };
 }
 

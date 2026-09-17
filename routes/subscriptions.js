@@ -4,6 +4,7 @@ const customers = require('../models/customer');
 const plans = require('../models/plan');
 const subscriptions = require('../models/subscription');
 const pauses = require('../models/pause');
+const transfers = require('../models/transfer');
 
 const router = express.Router();
 
@@ -25,6 +26,39 @@ function isDate(value) {
 function today() {
   return new Date().toISOString().slice(0, 10);
 }
+
+router.post('/:id/transfer', (req, res, next) => {
+  const id = parseId(req.params.id);
+  const newCustomerId = parseId(inputValue(req.body, 'new_customer_id', 'newCustomerId'));
+  const transferredOn = String(inputValue(req.body, 'transferred_on', 'transferredOn') || '');
+  const currentMonth = today().slice(0, 7);
+
+  if (!id || !newCustomerId || !isDate(transferredOn)) {
+    return res.status(400).json({ error: 'subscription id, new_customer_id, and valid transferred_on (YYYY-MM-DD) are required' });
+  }
+  if (!transferredOn.startsWith(`${currentMonth}-`)) {
+    return res.status(400).json({ error: 'transferred_on must fall within the current billing cycle' });
+  }
+
+  const subscription = subscriptions.findById(id);
+  if (!subscription) return res.status(404).json({ error: 'Subscription not found' });
+  if (subscription.status !== 'active') return res.status(409).json({ error: 'Only active subscriptions can be transferred' });
+  if (transferredOn < subscription.start_date) return res.status(400).json({ error: 'transferred_on cannot be before the subscription start date' });
+  if (!customers.findById(newCustomerId)) return res.status(404).json({ error: 'New customer not found' });
+  const fromCustomerId = transfers.findOwnerBefore(id, transferredOn, subscription.customer_id);
+  if (fromCustomerId === newCustomerId) return res.status(409).json({ error: 'Subscription is already billed to this customer on that date' });
+
+  try {
+    return res.status(201).json({ transfer: transfers.create({
+      subscriptionId: id,
+      fromCustomerId,
+      toCustomerId: newCustomerId,
+      transferredOn
+    }) });
+  } catch (error) {
+    return next(error);
+  }
+});
 
 router.post('/', (req, res, next) => {
   const customerId = parseId(inputValue(req.body, 'customer_id', 'customerId'));

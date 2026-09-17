@@ -18,7 +18,7 @@ function isWeekday(year, monthIndex, day) {
   return weekday >= 1 && weekday <= 5;
 }
 
-function calculateBill({ month, planPrice, startDate, pauses }) {
+function calculateBill({ month, planPrice, startDate, pauses, fromDate = null, toDate = null }) {
   const details = monthDetails(month);
   if (!details) throw new Error('month must use YYYY-MM format');
 
@@ -31,6 +31,8 @@ function calculateBill({ month, planPrice, startDate, pauses }) {
 
   const daysDelivered = weekdays.filter((date) => {
     if (date < startDate) return false;
+    if (fromDate && date < fromDate) return false;
+    if (toDate && date >= toDate) return false;
     return !pauses.some((pause) => (
       pause.paused_from <= date && (pause.paused_to === null || date <= pause.paused_to)
     ));
