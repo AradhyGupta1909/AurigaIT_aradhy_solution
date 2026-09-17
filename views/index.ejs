@@ -6,16 +6,42 @@
   <title>Daily Tiffin</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-  <main class="hero">
-    <p class="eyebrow">Weekday meals, made simple</p>
-    <h1>Fresh lunch, waiting for you.</h1>
-    <p class="intro">Subscribe to a monthly tiffin plan, pause when life changes, and pay only for meals delivered.</p>
-    <div class="actions">
-      <a class="button" href="/register">Get started</a>
-      <a class="text-link" href="/login">Customer login</a>
-    </div>
+<body class="landing-page">
+  <header class="landing-nav">
+    <a class="brand" href="/">Daily Tiffin</a>
+    <nav><a href="#features">Features</a><a href="#coming-next">Coming next</a><a href="/login">Log in</a><a class="nav-cta" href="/register">Register</a></nav>
+  </header>
+  <main class="landing-main">
+    <section class="landing-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">The calm behind the lunch rush</p>
+        <h1>Run your tiffin service by the day, not by the guesswork.</h1>
+        <p class="intro">One simple workspace for weekday meal subscriptions, pauses, customer status, and fair month-end bills.</p>
+        <div class="actions"><a class="button" href="/register">Start managing</a><a class="text-link" href="/login">Owner login</a></div>
+      </div>
+      <div class="hero-note" aria-label="Daily Tiffin summary"><span class="note-mark">01</span><p>Plan the meals.<br><strong>We count the days.</strong></p><small>Built for tiffin and lunch delivery owners.</small></div>
+    </section>
+
+    <section id="features" class="landing-section feature-section">
+      <div class="section-heading"><p class="eyebrow">At a glance</p><h2>The essentials, in one place.</h2></div>
+      <div class="feature-grid">
+        <article><span class="feature-number">01</span><h3>Subscriptions that flex</h3><p>Start a customer on a plan, pause deliveries when needed, and resume without losing the record.</p></article>
+        <article><span class="feature-number">02</span><h3>Billing that feels fair</h3><p>Month-end totals are prorated from weekdays actually available for delivery, including mid-month starts.</p></article>
+        <article><span class="feature-number">03</span><h3>A live owner view</h3><p>Find customers by name or phone and see active, paused, cancelled, and unstarted accounts at a glance.</p></article>
+      </div>
+    </section>
+
+    <section class="landing-section help-section">
+      <div><p class="eyebrow">Made for the people doing the work</p><h2>Less spreadsheet stitching. More lunch delivered.</h2></div>
+      <p>Daily Tiffin gives small tiffin and lunch delivery teams one dependable place to manage recurring customers, handle exceptions, and explain every bill. Your team gets a clearer morning run and customers get charges they can understand.</p>
+    </section>
+
+    <section id="coming-next" class="landing-section next-section">
+      <div class="section-heading"><p class="eyebrow">On the horizon</p><h2>Coming next</h2></div>
+      <div class="next-list"><div><span>01</span><p>Customer self-service portal</p></div><div><span>02</span><p>WhatsApp delivery reminders</p></div><div><span>03</span><p>Delivery-partner tracking</p></div></div>
+    </section>
   </main>
+  <footer class="landing-footer"><span>Daily Tiffin</span><span>Weekday meals, made manageable.</span></footer>
   <script src="/app.js"></script>
 </body>
 </html>
