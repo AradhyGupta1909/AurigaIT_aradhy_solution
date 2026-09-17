@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plans | Daily Tiffin</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="app-page">
+  <%- include('partials/nav', { context: 'owner' }) %>
+  <main class="page-content plans-layout">
+    <div class="page-heading"><div><p class="eyebrow">Subscription catalog</p><h1>Plans</h1></div></div>
+    <div class="plans-grid">
+      <section>
+        <h2>Available plans</h2>
+        <div class="plan-list">
+          <% plans.forEach((plan) => { %>
+            <article class="plan-item"><div><h3><%= plan.name %></h3><p><%= plan.description || 'No description' %></p></div><strong>&#8377;<%= plan.price.toFixed(2) %></strong></article>
+          <% }); %>
+        </div>
+      </section>
+      <section class="plan-form-section">
+        <h2>Add a plan</h2>
+        <% if (typeof error !== 'undefined') { %><p class="form-message"><%= error %></p><% } %>
+        <form class="stack-form" method="post" action="/plans">
+          <label for="name">Plan name</label>
+          <input id="name" name="name" required>
+          <label for="price">Monthly price</label>
+          <input id="price" name="price" type="number" min="0" step="1" required>
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="4"></textarea>
+          <button class="button" type="submit">Add plan</button>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -20,7 +20,7 @@
       <label for="plan_id">Plan</label>
       <select id="plan_id" name="plan_id" required>
         <option value="">Choose a plan</option>
-        <% plans.forEach((plan) => { %><option value="<%= plan.id %>"><%= plan.name %> · <%= plan.price.toFixed(2) %></option><% }); %>
+        <% plans.forEach((plan) => { %><option value="<%= plan.id %>"><%= plan.name %> - &#8377;<%= plan.price.toFixed(2) %></option><% }); %>
       </select>
       <label for="start_date">Start date</label>
       <input id="start_date" name="start_date" type="date" required>
