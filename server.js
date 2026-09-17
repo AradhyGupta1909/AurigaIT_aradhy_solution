@@ -9,6 +9,7 @@ const billingRoutes = require('./routes/billing');
 const customerRoutes = require('./routes/customers');
 const healthRoutes = require('./routes/health');
 const ownerRoutes = require('./routes/owner');
+const planRoutes = require('./routes/plans');
 const subscriptionRoutes = require('./routes/subscriptions');
 const requireAuth = require('./middleware/auth');
 
@@ -36,6 +37,7 @@ app.use('/api/auth', authRoutes);
 app.use(requireAuth);
 app.use('/', ownerRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api', planRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api', billingRoutes);
 app.use('/health', healthRoutes);

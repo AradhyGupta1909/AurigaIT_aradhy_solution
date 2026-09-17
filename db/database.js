@@ -23,6 +23,7 @@ if (planCount === 0) {
 	db.transaction(() => {
 		samplePlans.forEach((plan) => insertPlan.run(plan.name, plan.price, plan.description));
 	})();
+	console.log(`Seeded ${samplePlans.length} plans`);
 }
 
 module.exports = db;

@@ -22,7 +22,7 @@
       <section class="plan-form-section">
         <h2>Add a plan</h2>
         <% if (typeof error !== 'undefined') { %><p class="form-message"><%= error %></p><% } %>
-        <form class="stack-form" method="post" action="/plans">
+        <form class="stack-form" method="post" action="/api/plans">
           <label for="name">Plan name</label>
           <input id="name" name="name" required>
           <label for="price">Monthly price</label>
