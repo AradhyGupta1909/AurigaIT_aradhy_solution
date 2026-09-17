@@ -9,6 +9,13 @@ function publicUser(user) {
   return { id: user.id, email: user.email, created_at: user.created_at };
 }
 
+function respondWithAuth(req, res, user, statusCode = 200) {
+  if (req.accepts('html') && !req.is('json')) {
+    return res.redirect('/dashboard');
+  }
+  return res.status(statusCode).json({ user });
+}
+
 router.post('/register', async (req, res, next) => {
   try {
     const email = String(req.body.email || '').trim().toLowerCase();
@@ -25,7 +32,7 @@ router.post('/register', async (req, res, next) => {
     const passwordHash = await bcrypt.hash(password, 12);
     const user = users.create({ email, passwordHash });
     req.session.user = publicUser(user);
-    return res.status(201).json({ user: publicUser(user) });
+    return respondWithAuth(req, res, req.session.user, 201);
   } catch (error) {
     return next(error);
   }
@@ -42,7 +49,7 @@ router.post('/login', async (req, res, next) => {
     }
 
     req.session.user = publicUser(user);
-    return res.json({ user: publicUser(user) });
+  return respondWithAuth(req, res, req.session.user);
   } catch (error) {
     return next(error);
   }

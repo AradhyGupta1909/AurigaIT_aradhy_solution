@@ -1,0 +1,24 @@
+<% if (context === 'landing') { %>
+  <header class="landing-nav">
+    <a class="brand" href="/">Daily Tiffin</a>
+    <nav>
+      <a href="#features">Features</a><a href="#coming-next">Coming next</a>
+      <% if (currentUser) { %>
+        <span class="user-label"><span class="user-avatar"><%= currentUser.email.charAt(0).toUpperCase() %></span><%= currentUser.email %></span>
+        <a class="nav-cta" href="/dashboard">Dashboard</a>
+        <button class="link-button" data-logout>Log out</button>
+      <% } else { %>
+        <a href="/login">Log in</a><a class="nav-cta" href="/register">Register</a>
+      <% } %>
+    </nav>
+  </header>
+<% } else { %>
+  <header class="topbar">
+    <a class="brand" href="/dashboard">Daily Tiffin</a>
+    <nav>
+      <a href="/dashboard">Customers</a><a href="/customers/new">New customer</a><a href="/bills">Bills</a>
+      <span class="user-label"><span class="user-avatar"><%= currentUser.email.charAt(0).toUpperCase() %></span><%= currentUser.email %></span>
+      <button class="link-button" data-logout>Log out</button>
+    </nav>
+  </header>
+<% } %>

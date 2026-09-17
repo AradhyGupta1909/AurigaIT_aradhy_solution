@@ -62,6 +62,8 @@ button:disabled { cursor: wait; opacity: 0.6; }
 .topbar nav { display: flex; align-items: center; gap: 1.25rem; }
 .topbar nav a, .link-button { color: #26332d; font: 700 0.82rem Arial, sans-serif; text-decoration: none; }
 .link-button { padding: 0; border: 0; background: transparent; }
+.user-label { display: inline-flex; align-items: center; gap: 0.4rem; color: #26332d; font: 700 0.78rem Arial, sans-serif; }
+.user-avatar { display: inline-grid; place-items: center; width: 1.55rem; height: 1.55rem; border-radius: 50%; color: #f7f3ea; background: #53735a; font: 700 0.72rem Arial, sans-serif; }
 .page-content { width: min(1180px, 92vw); margin: 0 auto; padding: 4rem 0; }
 .narrow-content { width: min(600px, 92vw); }
 .page-heading { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2rem; }

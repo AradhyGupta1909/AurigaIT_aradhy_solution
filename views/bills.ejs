@@ -7,10 +7,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="app-page">
-  <header class="topbar">
-    <a class="brand" href="/dashboard">Daily Tiffin</a>
-    <nav><a href="/dashboard">Customers</a><a href="/customers/new">New customer</a><button class="link-button" data-logout>Log out</button></nav>
-  </header>
+  <%- include('partials/nav', { context: 'owner' }) %>
   <main class="page-content">
     <div class="page-heading"><div><p class="eyebrow">Month-end billing</p><h1>Bills</h1></div></div>
     <form id="bill-filters" class="toolbar filter-form">

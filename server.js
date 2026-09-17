@@ -25,6 +25,10 @@ app.use(session({
   saveUninitialized: false,
   cookie: { httpOnly: true, sameSite: 'lax' }
 }));
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);

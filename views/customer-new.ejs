@@ -7,10 +7,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="app-page">
-  <header class="topbar">
-    <a class="brand" href="/dashboard">Daily Tiffin</a>
-    <nav><a href="/dashboard">Customers</a><a href="/bills">Bills</a><button class="link-button" data-logout>Log out</button></nav>
-  </header>
+  <%- include('partials/nav', { context: 'owner' }) %>
   <main class="page-content narrow-content">
     <a class="back-link" href="/dashboard">Back to customers</a>
     <p class="eyebrow">New subscription</p>
