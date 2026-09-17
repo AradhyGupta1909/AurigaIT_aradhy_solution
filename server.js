@@ -4,7 +4,9 @@ const session = require('express-session');
 require('./db/database');
 
 const indexRoutes = require('./routes');
+const authRoutes = require('./routes/auth');
 const healthRoutes = require('./routes/health');
+const requireAuth = require('./middleware/auth');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -22,6 +24,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);
+app.use('/api/auth', authRoutes);
+app.use(requireAuth);
 app.use('/health', healthRoutes);
 
 app.use((err, req, res, next) => {

@@ -21,3 +21,16 @@ h1 { max-width: 650px; margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); line-heig
 .actions { display: flex; align-items: center; gap: 1.5rem; }
 .button { padding: 0.85rem 1.2rem; color: #f7f3ea; background: #26332d; text-decoration: none; border-radius: 4px; font: 700 0.95rem Arial, sans-serif; }
 .text-link { color: #26332d; font: 700 0.95rem Arial, sans-serif; }
+
+.auth-page { display: grid; place-items: center; padding: 2rem; background: #dce8d7; }
+.auth-card { width: min(100%, 430px); padding: 2.5rem; background: #f7f3ea; border: 1px solid #b7c8b1; }
+.back-link { display: inline-block; margin-bottom: 4rem; color: #26332d; font: 700 0.95rem Arial, sans-serif; }
+.auth-card h1 { margin-bottom: 2rem; font-size: clamp(2.5rem, 10vw, 4.5rem); }
+form { display: grid; gap: 0.7rem; }
+label { margin-top: 0.5rem; font: 700 0.8rem Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+input { width: 100%; padding: 0.85rem; border: 1px solid #9fb19a; background: #fffdf8; color: #26332d; font: 1rem Georgia, serif; }
+button { border: 0; cursor: pointer; }
+button:disabled { cursor: wait; opacity: 0.6; }
+.form-message { min-height: 1.4em; margin: 0.5rem 0 0; color: #7b3c2e; font: 0.9rem Arial, sans-serif; }
+.form-footer { margin-bottom: 0; font: 0.95rem Arial, sans-serif; }
+.form-footer a { color: #53735a; font-weight: 700; }
