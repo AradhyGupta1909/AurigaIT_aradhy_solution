@@ -1,4 +1,5 @@
 const db = require('../db/database');
+const { normalizePhone } = require('../utils/phone');
 
 function findAll({ limit = 50, offset = 0 } = {}) {
   return db.prepare(`
@@ -68,7 +69,7 @@ function findById(id) {
 }
 
 function findByPhone(phone) {
-  return db.prepare('SELECT id, name, phone, password_hash, created_at FROM customers WHERE phone = ?').get(phone);
+  return db.prepare('SELECT id, name, phone, password_hash, created_at FROM customers WHERE phone = ?').get(normalizePhone(phone));
 }
 
 function findByIdWithPassword(id) {
@@ -76,12 +77,12 @@ function findByIdWithPassword(id) {
 }
 
 function createWithPassword({ name, phone, passwordHash }) {
-  const result = db.prepare('INSERT INTO customers (name, phone, password_hash) VALUES (?, ?, ?)').run(name, phone, passwordHash);
+  const result = db.prepare('INSERT INTO customers (name, phone, password_hash) VALUES (?, ?, ?)').run(name, normalizePhone(phone), passwordHash);
   return findByIdWithPassword(result.lastInsertRowid);
 }
 
 function create({ name, phone }) {
-  const result = db.prepare('INSERT INTO customers (name, phone) VALUES (?, ?)').run(name, phone);
+  const result = db.prepare('INSERT INTO customers (name, phone) VALUES (?, ?)').run(name, normalizePhone(phone));
   return findById(result.lastInsertRowid);
 }
 

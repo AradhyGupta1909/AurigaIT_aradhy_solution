@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const customers = require('../models/customer');
+const { normalizePhone } = require('../utils/phone');
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.post('/register', async (req, res, next) => {
   const name = String(req.body.name || '').trim();
   const phone = String(req.body.phone || '').trim();
   const password = String(req.body.password || '');
-  if (!name || !phone || password.length < 8) return res.status(400).send('Name, phone, and an 8+ character password are required');
+  if (!name || !normalizePhone(phone) || password.length < 8) return res.status(400).send('Name, valid phone, and an 8+ character password are required');
   if (customers.findByPhone(phone)) return res.status(409).send('Phone is already registered');
   try {
     const customer = customers.createWithPassword({ name, phone, passwordHash: await bcrypt.hash(password, 12) });

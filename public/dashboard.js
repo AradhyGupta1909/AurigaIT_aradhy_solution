@@ -105,16 +105,25 @@ function toggleTransferForm(event) {
   const button = event.currentTarget;
   const form = document.querySelector(`[data-transfer-form][data-subscription-id="${button.dataset.subscriptionId}"]`);
   form.hidden = !form.hidden;
+  if (!form.hidden) loadTransferCustomers(form, '');
 }
 
 async function searchTransferCustomers(event) {
   const input = event.currentTarget;
   const form = input.closest('[data-transfer-form]');
+  loadTransferCustomers(form, input.value.trim());
+}
+
+async function loadTransferCustomers(form, search) {
   const select = form.querySelector('[data-transfer-customer]');
-  const response = await fetch(`/api/customers?search=${encodeURIComponent(input.value.trim())}&limit=20&sort=name&order=asc`);
-  if (!response.ok) return;
-  const result = await response.json();
-  select.innerHTML = '<option value="">Choose customer</option>' + result.customers.map((customer) => `<option value="${customer.id}">${escapeHtml(customer.name)} - ${escapeHtml(customer.phone)}</option>`).join('');
+  try {
+    const response = await fetch(`/api/customers?search=${encodeURIComponent(search)}&limit=20&sort=name&order=asc`);
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'Unable to search customers');
+    select.innerHTML = '<option value="">Choose customer</option>' + result.customers.map((customer) => `<option value="${customer.id}">${escapeHtml(customer.name)} - ${escapeHtml(customer.phone)}</option>`).join('');
+  } catch (error) {
+    tableMessage.textContent = error.message;
+  }
 }
 
 async function transferSubscription(event) {

@@ -2,6 +2,7 @@ const express = require('express');
 const customers = require('../models/customer');
 const plans = require('../models/plan');
 const subscriptions = require('../models/subscription');
+const { normalizePhone } = require('../utils/phone');
 
 const router = express.Router();
 
@@ -38,15 +39,6 @@ function parseCsv(text) {
     if (row.some((value) => value !== '')) rows.push(row);
   }
   return rows;
-}
-
-function normalizePhone(value) {
-  const compact = String(value || '').trim().replace(/[\s-]/g, '');
-  if (!compact) return null;
-  const digits = compact.startsWith('+') ? compact.slice(1) : compact;
-  if (!/^\d{10,13}$/.test(digits)) return null;
-  if (digits.length === 10) return `+91${digits}`;
-  return `+${digits}`;
 }
 
 function parseDate(value) {
