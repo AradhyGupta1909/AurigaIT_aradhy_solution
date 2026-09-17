@@ -108,6 +108,15 @@ tfoot th { color: #26332d; border-bottom: 0; }
 .import-report { margin-top: 3rem; padding: 1.25rem; background: #dce8d7; font: 0.9rem/1.5 Arial, sans-serif; }
 .import-report h2 { margin-top: 0; font: 500 1.3rem Georgia, serif; }
 .import-report ul { padding-left: 1.2rem; }
+.today-orders { margin-top: 5rem; }
+.today-orders h2 { margin: 0 0 1.5rem; font-size: 2rem; font-weight: 500; }
+.menu-choice { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.8rem; padding: 1rem 0; border-bottom: 1px solid #d2ddcd; text-transform: none; letter-spacing: 0; }
+.menu-choice span { display: grid; gap: 0.3rem; font: 1rem Georgia, serif; }
+.menu-choice small { color: #53735a; font: 0.78rem Arial, sans-serif; }
+.quantity-input { width: 4rem; padding: 0.45rem; }
+.confirmation-box { margin: 2rem 0; padding: 1.5rem; background: #dce8d7; font: 0.95rem/1.5 Arial, sans-serif; }
+.menu-edit-form { display: flex; gap: 0.5rem; align-items: center; }
+.menu-edit-form input { min-width: 100px; padding: 0.45rem; }
 
 @media (max-width: 650px) {
   .landing-nav { align-items: flex-start; flex-direction: column; }

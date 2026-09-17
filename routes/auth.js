@@ -31,6 +31,7 @@ router.post('/register', async (req, res, next) => {
 
     const passwordHash = await bcrypt.hash(password, 12);
     const user = users.create({ email, passwordHash });
+    delete req.session.customer;
     req.session.user = publicUser(user);
     return respondWithAuth(req, res, req.session.user, 201);
   } catch (error) {
@@ -48,6 +49,7 @@ router.post('/login', async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
+  delete req.session.customer;
     req.session.user = publicUser(user);
   return respondWithAuth(req, res, req.session.user);
   } catch (error) {

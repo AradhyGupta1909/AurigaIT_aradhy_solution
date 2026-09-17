@@ -13,6 +13,19 @@ function findById(id) {
   return db.prepare('SELECT id, customer_id, plan_id, start_date, status FROM subscriptions WHERE id = ?').get(id);
 }
 
+function findActiveForCustomerOnDate(customerId, date) {
+  return db.prepare(`
+    SELECT subscriptions.id, subscriptions.customer_id, subscriptions.plan_id, subscriptions.start_date, subscriptions.status
+    FROM subscriptions
+    WHERE customer_id = ? AND status = 'active' AND start_date <= ?
+      AND NOT EXISTS (
+        SELECT 1 FROM pauses WHERE pauses.subscription_id = subscriptions.id
+          AND pauses.paused_from <= ? AND (pauses.paused_to IS NULL OR pauses.paused_to >= ?)
+      )
+    ORDER BY id DESC LIMIT 1
+  `).get(customerId, date, date, date);
+}
+
 function findAllWithDetails({ limit = 50, offset = 0 } = {}) {
   return db.prepare(`
     SELECT
@@ -97,4 +110,4 @@ function remove(id) {
   return db.prepare('DELETE FROM subscriptions WHERE id = ?').run(id).changes > 0;
 }
 
-module.exports = { findAll, findById, findAllWithDetails, findForBilling, findAllForBilling, create, update, updateStatus, remove };
+module.exports = { findAll, findById, findActiveForCustomerOnDate, findAllWithDetails, findForBilling, findAllForBilling, create, update, updateStatus, remove };

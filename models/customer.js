@@ -68,7 +68,16 @@ function findById(id) {
 }
 
 function findByPhone(phone) {
-  return db.prepare('SELECT id, name, phone, created_at FROM customers WHERE phone = ?').get(phone);
+  return db.prepare('SELECT id, name, phone, password_hash, created_at FROM customers WHERE phone = ?').get(phone);
+}
+
+function findByIdWithPassword(id) {
+  return db.prepare('SELECT id, name, phone, password_hash, created_at FROM customers WHERE id = ?').get(id);
+}
+
+function createWithPassword({ name, phone, passwordHash }) {
+  const result = db.prepare('INSERT INTO customers (name, phone, password_hash) VALUES (?, ?, ?)').run(name, phone, passwordHash);
+  return findByIdWithPassword(result.lastInsertRowid);
 }
 
 function create({ name, phone }) {
@@ -85,4 +94,4 @@ function remove(id) {
   return db.prepare('DELETE FROM customers WHERE id = ?').run(id).changes > 0;
 }
 
-module.exports = { findAll, search, findById, findByPhone, create, update, remove };
+module.exports = { findAll, search, findById, findByPhone, findByIdWithPassword, createWithPassword, create, update, remove };

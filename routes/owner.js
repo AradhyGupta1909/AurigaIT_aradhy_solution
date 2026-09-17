@@ -1,10 +1,11 @@
 const express = require('express');
 const plans = require('../models/plan');
+const orders = require('../models/order');
 
 const router = express.Router();
 
 router.get('/dashboard', (req, res) => {
-  res.render('dashboard', { user: req.session.user });
+  res.render('dashboard', { user: req.session.user, todayOrders: orders.findToday(new Date().toISOString().slice(0, 10)) });
 });
 
 router.get('/customers/new', (req, res) => {

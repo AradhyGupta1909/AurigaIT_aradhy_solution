@@ -11,7 +11,22 @@ CREATE TABLE IF NOT EXISTS customers (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   phone TEXT NOT NULL UNIQUE,
+  password_hash TEXT,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS menu_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  price INTEGER NOT NULL CHECK (price >= 0),
+  description TEXT NOT NULL DEFAULT '',
+  available_today INTEGER NOT NULL DEFAULT 1 CHECK (available_today IN (0, 1))
+);
+
+CREATE TABLE IF NOT EXISTS delivery_agents (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS plans (
@@ -63,7 +78,32 @@ CREATE TABLE IF NOT EXISTS subscription_transfers (
   CHECK (from_customer_id != to_customer_id)
 );
 
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customer_id INTEGER NOT NULL,
+  subscription_id INTEGER NOT NULL,
+  order_date TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'confirmed',
+  delivery_agent_id INTEGER NOT NULL,
+  estimated_delivery_time TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE,
+  FOREIGN KEY (subscription_id) REFERENCES subscriptions (id) ON DELETE CASCADE,
+  FOREIGN KEY (delivery_agent_id) REFERENCES delivery_agents (id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL,
+  menu_item_id INTEGER NOT NULL,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE,
+  FOREIGN KEY (menu_item_id) REFERENCES menu_items (id) ON DELETE RESTRICT
+);
+
 CREATE INDEX IF NOT EXISTS idx_customers_phone ON customers (phone);
+CREATE INDEX IF NOT EXISTS idx_orders_date ON orders (order_date);
+CREATE INDEX IF NOT EXISTS idx_orders_customer ON orders (customer_id);
 CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_customer ON subscriptions (customer_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions (status);

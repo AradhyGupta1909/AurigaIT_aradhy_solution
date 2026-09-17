@@ -12,8 +12,11 @@ const ownerRoutes = require('./routes/owner');
 const importRoutes = require('./routes/import');
 const planRoutes = require('./routes/plans');
 const notificationRoutes = require('./routes/notifications');
+const customerAuthRoutes = require('./routes/customer-auth');
+const customerOrderRoutes = require('./routes/customer-orders');
+const menuRoutes = require('./routes/menu');
 const subscriptionRoutes = require('./routes/subscriptions');
-const requireAuth = require('./middleware/auth');
+const { requireOwner, requireCustomer } = require('./middleware/roles');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -31,14 +34,18 @@ app.use(session({
 }));
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null;
+  res.locals.currentCustomer = req.session.customer || null;
   next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);
 app.use('/api/auth', authRoutes);
-app.use(requireAuth);
+app.use('/customer', customerAuthRoutes);
+app.use('/customer', requireCustomer, customerOrderRoutes);
+app.use(requireOwner);
 app.use('/', ownerRoutes);
+app.use('/', menuRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api', planRoutes);
 app.use('/api', importRoutes.router);
