@@ -40,8 +40,19 @@ CREATE TABLE IF NOT EXISTS pauses (
   CHECK (paused_to IS NULL OR paused_to >= paused_from)
 );
 
+CREATE TABLE IF NOT EXISTS outbox (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customer_id INTEGER NOT NULL,
+  subscription_id INTEGER NOT NULL,
+  message TEXT NOT NULL,
+  sent_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE,
+  FOREIGN KEY (subscription_id) REFERENCES subscriptions (id) ON DELETE CASCADE
+);
+
 CREATE INDEX IF NOT EXISTS idx_customers_phone ON customers (phone);
 CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_customer ON subscriptions (customer_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions (status);
 CREATE INDEX IF NOT EXISTS idx_pauses_subscription ON pauses (subscription_id);
+CREATE INDEX IF NOT EXISTS idx_outbox_sent_at ON outbox (sent_at);
